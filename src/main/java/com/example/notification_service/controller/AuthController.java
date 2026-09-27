@@ -16,13 +16,14 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest request){
-        System.out.println("username " + request.getUsername());
-        System.out.println("password " + request.getPassword());
-        if("admin".equals(request.getUsername()) && "admin123".equals(request.getPassword())){
-            String token = jwtUtil.generateToken(request.getUsername());
-            return new LoginResponse(token);
-        }
-        throw new RuntimeException("Invalid Crendentials");
-    }
+public LoginResponse login(
+        @RequestBody LoginRequest request) {
+
+    String token =
+            jwtUtil.generateToken(
+                    request.getUsername(),
+                    request.getRole());
+
+    return new LoginResponse(token);
+}
 }

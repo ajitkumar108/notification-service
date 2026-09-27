@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.example.notification_service.dto.NotificationRequest;
 import com.example.notification_service.entity.Notification;
 import com.example.notification_service.service.NotificationService;
+
 
 import jakarta.validation.Valid;
 
@@ -23,15 +25,19 @@ public class NotificationController {
     @Autowired 
     private NotificationService service;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping 
     public Notification send(@Valid   @RequestBody NotificationRequest request){
         return service.send(request);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping 
     public List<Notification>getAllNotifications(){
         return service.getAllNotifications();
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
 public void delete(@PathVariable Long id) {
     service.delete(id);
