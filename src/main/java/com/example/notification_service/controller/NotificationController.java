@@ -1,6 +1,8 @@
 package com.example.notification_service.controller;
 
 import java.util.List;
+import com.example.notification_service.kafka.NotificationProducer;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,11 +27,18 @@ public class NotificationController {
     @Autowired 
     private NotificationService service;
 
+    @Autowired
+    private NotificationProducer producer;
+
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping 
-    public Notification send(@Valid   @RequestBody NotificationRequest request){
-        return service.send(request);
-    }
+@PostMapping
+public Notification send(
+        @Valid @RequestBody NotificationRequest request) {
+
+    producer.send(request.getMessage());
+
+    return service.send(request);
+}
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping 
