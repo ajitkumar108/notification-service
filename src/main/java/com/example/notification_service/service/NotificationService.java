@@ -151,4 +151,14 @@ public class NotificationService {
                 "Notification deleted with id {}",
                 id);
     }
+
+    public Notification processNotification(NotificationRequest request) {
+
+        log.info(
+                "Processing notification for eventId {} and userId {}",
+                request.getEventId(),
+                request.getUserId());
+
+        return send(request);
+    }
 }

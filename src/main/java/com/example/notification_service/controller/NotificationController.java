@@ -35,9 +35,10 @@ public class NotificationController {
 public Notification send(
         @Valid @RequestBody NotificationRequest request) {
 
-    producer.send(request.getMessage());
+   
+        producer.send(request.getMessage());
+        return service.send(request);
 
-    return service.send(request);
 }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
