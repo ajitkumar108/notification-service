@@ -1,9 +1,12 @@
 package com.example.notification_service.entity;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class DeliveryLog {
+public class DeliveryLog implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
